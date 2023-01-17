@@ -1,3 +1,4 @@
 venv
 geckodriver.log
 .env
+__pycache__/
