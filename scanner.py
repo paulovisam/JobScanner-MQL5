@@ -63,35 +63,35 @@ def isMsg(driver, telegram) -> bool:
 def jobs(driver):
     driver.get('https://www.mql5.com/pt/job')
     time.sleep(3)
+    job1 = None
+    desc1 = None
     try:
         job1 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[1]/div[1]/a')
         id1 = job1.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
         job1 = job1.text
         desc1 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[1]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
-        # job1 = None
         id1 = None
-        # desc1 = None
         print('Objeto job não encontrado')
+    job2 = None
+    desc2 = None
     try:
         job2 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[2]/div[1]/a')
         id2 = job2.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
         job2 = job2.text
         desc2 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[2]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
-        # job2 = None
         id2 = None
-        # desc2 = None
         print('Objeto job não encontrado')
+    job3 = None
+    desc3 = None
     try:
         job3 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[3]/div[1]/a')
         id3 = job3.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
         job3 = job3.text
         desc3 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[3]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
-        # job3 = None
         id3 = None
-        # desc3 = None
         print('Objeto job não encontrado')
     return [(id1, job1, desc1), (id2, job2, desc2), (id3, job3, desc3)]
 
