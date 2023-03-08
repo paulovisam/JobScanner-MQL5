@@ -16,9 +16,10 @@ senha = os.getenv('SENHA')
 token = os.getenv('TOKEN')
 timer = int(os.getenv('TIMER_SECONDS'))
 id_chat = int(os.getenv('ID_CHAT'))
+country = os.getenv('COUNTRY').lower()
 
 def login(driver) -> bool:
-    driver.get('https://www.mql5.com/pt/auth_login')
+    driver.get(f'https://www.mql5.com/{country}/auth_login')
     print('Fazendo login...')
     time.sleep(3)
     try:
@@ -39,7 +40,7 @@ def login(driver) -> bool:
 
 def isLogged(driver) -> bool:
     try:
-        driver.get('https://www.mql5.com/pt/job')
+        driver.get(f'https://www.mql5.com/{country}/job')
         time.sleep(3)
         user = driver.find_element(By.XPATH, '/html/body/div/header/div/div[1]/div[3]/div[1]/nav/ul/li/a').get_attribute('href')
         print('Usuario logado!')
@@ -61,13 +62,13 @@ def isMsg(driver, telegram) -> bool:
         return False
 
 def jobs(driver):
-    driver.get('https://www.mql5.com/pt/job')
+    driver.get(f'https://www.mql5.com/{country}/job')
     time.sleep(3)
     job1 = None
     desc1 = None
     try:
         job1 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[1]/div[1]/a')
-        id1 = job1.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
+        id1 = job1.get_attribute('href').replace(f'https://www.mql5.com/{country}/job/', '')
         job1 = job1.text
         desc1 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[1]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
@@ -77,7 +78,7 @@ def jobs(driver):
     desc2 = None
     try:
         job2 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[2]/div[1]/a')
-        id2 = job2.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
+        id2 = job2.get_attribute('href').replace(f'https://www.mql5.com/{country}/job/', '')
         job2 = job2.text
         desc2 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[2]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
@@ -87,7 +88,7 @@ def jobs(driver):
     desc3 = None
     try:
         job3 = driver.find_element(By.XPATH, '/html/body/div/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[3]/div[1]/a')
-        id3 = job3.get_attribute('href').replace('https://www.mql5.com/pt/job/', '')
+        id3 = job3.get_attribute('href').replace(f'https://www.mql5.com/{country}/job/', '')
         job3 = job3.text
         desc3 = driver.find_element(By.XPATH, '/html/body/div[1]/main/article/div/div/div[2]/div[1]/div[4]/div[3]/div[3]/div[2]/div[1]/div[2]/div').text
     except Exception as erro:
@@ -111,7 +112,7 @@ def routing(driver, db, tg):
                 title = consult_jobs[i][1]
                 desc = consult_jobs[i][2]
                 db.set_job(id, title, desc)
-                tg.sender(f'*{title}*\n\nhttps://www.mql5.com/pt/job/{id}', id_chat)
+                tg.sender(f'*{title}*\n\nhttps://www.mql5.com/{country}/job/{id}', id_chat)
         else:
             # Valor vazio
             print(consult_jobs[i][0])
