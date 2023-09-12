@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 from dateutil.relativedelta import relativedelta
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from telegram import Telegram
+from telegram import TelegramBot
 from database import Database
 
 db = Database()
-tg = Telegram()
+tg = TelegramBot()
 load_dotenv()
 user = os.getenv('LOGIN')
 senha = os.getenv('SENHA')
@@ -54,7 +54,7 @@ def isMsg(driver, telegram) -> bool:
     try:
         msg = driver.find_element(By.XPATH, '//*[@id="notify_jobs"]')
         link_msg = msg.get_attribute('href')
-        telegram.sender(f'*VOCÊ POSSUI UMA NOVA MENSAGEM*\n\n{link_msg}', id_chat)
+        telegram.send_message(f'*VOCÊ POSSUI UMA NOVA MENSAGEM*[{link_msg}]')
         print(f'Nova mensagem!\n{link_msg}')
         return True
     except Exception as erro:
@@ -112,7 +112,7 @@ def routing(driver, db, tg):
                 title = consult_jobs[i][1]
                 desc = consult_jobs[i][2]
                 db.set_job(id, title, desc)
-                tg.sender(f'*{title}*\n\nhttps://www.mql5.com/{country}/job/{id}', id_chat)
+                tg.send_message(f'*{title}*\n\n{desc}\n[Clique para acessar](https://www.mql5.com/{country}/job/{id})')
         else:
             # Valor vazio
             print(consult_jobs[i][0])

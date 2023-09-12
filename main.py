@@ -1,28 +1,22 @@
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from webdriver_manager.firefox import GeckoDriverManager
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 import scanner
-from telegram import Telegram
-
-tg = Telegram()
 
 
-options = webdriver.FirefoxOptions()
-# options = webdriver.ChromeOptions()
-# options.binary_location = './geckodriver'
-# options.add_argument('--incognito')
-# options.add_argument("disable-infobars")
+options = webdriver.ChromeOptions()
+options.add_argument('--incognito')
+options.add_argument("disable-infobars")
 options.add_argument('--headless') #Oculto
-# options.add_argument("--disable-extensions")
 options.add_argument("--no-sandbox")
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--allow-running-insecure-content')
+options.add_argument("--window-size=1920,1080")
 options.add_argument("--disable-dev-shm-usage")
-
-# prefs = {"profile.managed_default_content_settings.images":2}
-# options.headless = True
-# options.add_experimental_option("prefs", prefs)
-
-driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
-# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+options.add_argument(f'user-agent={user_agent}')
+options.add_experimental_option("excludeSwitches", ["enable-logging"])
+prefs = {"profile.managed_default_content_settings.images":2}
+options.add_experimental_option("prefs", prefs)
+driver = webdriver.Chrome(service=Service(), options=options)
 
 scanner.run(driver)
