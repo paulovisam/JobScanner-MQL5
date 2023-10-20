@@ -54,7 +54,7 @@ def isMsg(driver, telegram) -> bool:
     try:
         msg = driver.find_element(By.XPATH, '//*[@id="notify_jobs"]')
         link_msg = msg.get_attribute('href')
-        telegram.send_message(f'*VOCÊ POSSUI UMA NOVA MENSAGEM*[{link_msg}]')
+        telegram.send_message(f'*VOCÊ POSSUI UMA NOVA MENSAGEM*\n[Clique para visualizar]({link_msg})')
         print(f'Nova mensagem!\n{link_msg}')
         return True
     except Exception as erro:
