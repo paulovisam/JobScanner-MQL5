@@ -1,6 +1,8 @@
 import sqlite3
 import os
+import logging
 
+logging.getLogger()
 class Database():
     def __init__(self) -> None:
         self.create_db()
@@ -28,10 +30,10 @@ class Database():
             conn.commit()
             res = cursor.fetchall()
             conn.close()
-            print(f'Executando comando no banco de dados', 'query_params_db')
+            logging.debug(f'Executando comando no banco de dados')
             return res
         except Exception as erro:
-            print('Erro ao executar comando','query_params_db', erro)
+            logging.error(f'Erro ao executar comando - {erro}')
     
     def set_job(self, id, title, desc):
         try:
@@ -40,7 +42,7 @@ class Database():
             set_result = self.query_params_db(set_query, set_params)
             return True
         except Exception as erro:
-            print(erro)
+            logging.error(erro)
             return False
 
     def get_all_id_jobs(self) -> list:
@@ -53,7 +55,7 @@ class Database():
                 array.append(response[i][0])
             return array
         except Exception as erro:
-            print('ERRO -',erro)
+            logging.error(f'ERRO DB - {erro}')
 
     def get_job(self, id) -> list:
         try:
@@ -63,7 +65,7 @@ class Database():
             response = self.query_params_db(query, params)
             return response
         except Exception as erro:
-            print('ERRO -',erro)
+            logging.error(f'ERRO DB - {erro}')
 
     def delete_job(self, id):
         try:
@@ -72,5 +74,5 @@ class Database():
             response = self.query_params_db(query, params)
             return True
         except Exception as erro:
-            print('ERRO -', erro)
+            logging.error(f'ERRO DB - {erro}')
         pass

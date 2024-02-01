@@ -1,7 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 import scanner
+import logging
 
+logging.basicConfig(filename='./log_jobscanner.txt', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_format = logging.Formatter('%(asctime)s APP [%(levelname)s] %(message)s')
+console_handler.setFormatter(console_format)
+logging.getLogger().addHandler(console_handler)
 
 options = webdriver.ChromeOptions()
 options.add_argument('--incognito')
